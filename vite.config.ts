@@ -5,6 +5,7 @@ import { defineConfig } from "vite"
 const getPath = (route: string) => path.resolve(__dirname, route);
 
 export default defineConfig({
+  base: "/fashion-landing-page/",
   resolve: {
     alias: {
       "@/layouts": getPath("./src/layouts"),
