@@ -25,10 +25,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: pnpm
+          cache: cd client && pnpm
 
       - name: 🗂️ Install dependencies
-        run: cd client && pnpm i
+        run: pnpm i
 
       - name: 🔨 Build
         run: pnpm build
