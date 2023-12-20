@@ -72,12 +72,56 @@
   }
 }
 
+
 @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  .container {
+    @apply px-3 md:px-5 lg:px-8;
+  }
+
+  .container .container-full {
+    @apply -mx-3 overflow-hidden px-3 md:-mx-5 md:px-5 lg:-mx-8 lg:px-8;
+  }
+
+  .scroll-thin {
+    scrollbar-width: thin;
+  }
+
+  .scroll-thin::-webkit-scrollbar {
+    --scroll-size: 0.5rem;
+    -webkit-appearance: none;
+    width: var(--scroll-size);
+    height: var(--scroll-size);
+  }
+
+  .scroll-thin::-webkit-scrollbar-track {
+    --scroll-bg-color: #f6f6f6;
+    background-color: var(--scroll-bg-color);
+    border-radius: 5px;
+  }
+
+  .scroll-thin::-webkit-scrollbar-thumb {
+    --scroll-thumb-color: #c3c3c3;
+    background-color: var(--scroll-thumb-color);
+    border-radius: 5px;
+  }
+
+  .hide-scroll {
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+  }
+
+  .hide-scroll::-webkit-scrollbar {
+    /* WebKit */
+    width: 0;
+    height: 0;
+    display: none;
   }
 }

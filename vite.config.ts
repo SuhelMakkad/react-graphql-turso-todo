@@ -5,7 +5,6 @@ import { defineConfig } from "vite"
 const getPath = (route: string) => path.resolve(__dirname, route);
 
 export default defineConfig({
-  base: "/react-graphql-turso-todo/",
   resolve: {
     alias: {
       "@/layouts": getPath("./src/layouts"),
