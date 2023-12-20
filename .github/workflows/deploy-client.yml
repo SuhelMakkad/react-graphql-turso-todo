@@ -1,17 +1,17 @@
-name: App CI
+name: Web App CI
 
 on:
   push:
-    # Run on all branches
     branches:
       - "main"
-    # Run only if files modified are not docs
-    paths-ignore:
-      - "*.md"
+    paths:
+      - "client/*"
 
+defaults:
+  run:
+    working-directory: client
 
 jobs:
-
   build:
     name: Build
     runs-on: ubuntu-latest
