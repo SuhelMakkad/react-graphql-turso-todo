@@ -7,14 +7,14 @@ on:
     paths:
       - "client/*"
 
-defaults:
-  run:
-    working-directory: client
-
 jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client
+
     steps:
       - uses: actions/checkout@v3
 
