@@ -11,9 +11,6 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: client
 
     steps:
       - uses: actions/checkout@v3
@@ -30,7 +27,7 @@ jobs:
           cache: pnpm
 
       - name: 🗂️ Install dependencies
-        run: pnpm i
+        run: cd client && pnpm i
 
       - name: 🔨 Build
         run: pnpm build
