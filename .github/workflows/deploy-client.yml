@@ -12,9 +12,6 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./client
 
     steps:
       - uses: actions/checkout@v3
@@ -22,19 +19,25 @@ jobs:
       - name: 🏗 Setup pnpm
         uses: pnpm/action-setup@v2
         with:
+          working-directory: ./client
           version: 8
 
       - name: 🏗 Setup Node
         uses: actions/setup-node@v3
         with:
+          working-directory: ./client
           node-version: 18
           cache: pnpm
 
       - name: 🗂️ Install dependencies
-        run: pnpm i
+        run: |
+          cd client
+          pnpm i
 
       - name: 🔨 Build
-        run: pnpm build
+        run: |
+          cd client
+          pnpm build
 
       # Upload dist artifacts
       - uses: actions/upload-artifact@v3
