@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { db } from "../drizzle/migrate";
+import { db } from "../drizzle/db";
 import { todos, users } from "../drizzle/schema";
 import { Resolvers } from "./types";
 
