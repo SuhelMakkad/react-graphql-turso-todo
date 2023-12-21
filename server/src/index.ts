@@ -1,57 +1,24 @@
+import express from "express";
 import { ApolloServer } from "@apollo/server";
-import { startStandaloneServer } from "@apollo/server/standalone";
+import { expressMiddleware } from "@apollo/server/express4";
 
 import { typeDefs } from "./schema";
-import { todos, users } from "./data";
 
-const resolvers = {
-  Query: {
-    todos: (_parent, args, _context) => {
-      return todos.filter((todo) => todo.userId === +args.userId);
-    },
-  },
-  Todo: {
-    user: (parent) => {
-      return users.find((user) => user.id === parent.userId);
-    },
-  },
-  User: {
-    todos: (parent) => {
-      return todos.filter((todo) => todo.userId === parent.id);
-    },
-  },
-  Mutation: {
-    addTodo: (_parent, args, _context) => {
-      const id = Date.now();
+const app = express();
+const PORT = Number(process.env.PORT) || 8000;
 
-      todos.push({
-        id,
-        todo: args.todo,
-        completed: args.completed,
-        userId: 1,
-      });
-
-      return todos;
-    },
-
-    deleteTodo: (_parent, args, _context) => {
-      const index = todos.findIndex((todo) => todo.id === +args.id);
-      if (index >= 0) {
-        todos.splice(index, 1);
-      }
-
-      return todos;
-    },
-  },
-};
-
-const server = new ApolloServer({
+const gqlServer = new ApolloServer({
   typeDefs,
-  resolvers,
+  resolvers: {},
 });
 
-const { url } = await startStandaloneServer(server, {
-  listen: { port: 4000 },
+await gqlServer.start();
+
+app.use(express.json());
+app.use("/graphql", expressMiddleware(gqlServer));
+
+app.get("/", (req, res) => {
+  res.json({ message: "Running" });
 });
 
-console.log(`🚀  Server ready at: ${url}`);
+app.listen(PORT, () => console.log(`🚀 started the server on ${PORT}`));

@@ -42,12 +42,6 @@ jobs:
           name: dist
           path: client/dist/
 
-      # Upload coverage artifacts
-      - uses: actions/upload-artifact@v3
-        with:
-          name: coverage
-          path: coverage/lcov.info
-
   deploy:
     name: Deploy
     # Deploy only for main branch
