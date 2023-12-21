@@ -1,7 +1,8 @@
-import "dotenv/config";
 import { migrate } from "drizzle-orm/libsql/migrator";
 import { drizzle } from "drizzle-orm/libsql";
 import { createClient } from "@libsql/client";
+import "dotenv/config";
+import * as schema from "./schema";
 
 const dbUrl = process.env.TURSO_DB_URL;
 const dbAuthToken = process.env.TURSO_DB_AUTH_TOKEN;
@@ -15,7 +16,7 @@ export const client = createClient({
   authToken: dbAuthToken,
 });
 
-export const db = drizzle(client);
+export const db = drizzle(client, { schema });
 
 async function main() {
   try {
@@ -23,7 +24,6 @@ async function main() {
       migrationsFolder: "src/drizzle/migrations",
     });
     console.log("Tables migrated!");
-    process.exit(0);
   } catch (error) {
     console.error("Error performing migration: ", error);
     process.exit(1);

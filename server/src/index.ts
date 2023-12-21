@@ -2,17 +2,18 @@ import express from "express";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 
-import { typeDefs } from "./schema";
+import { typeDefs } from "./graphql/schema";
+import { resolvers } from "./graphql/resolvers";
 
 const app = express();
 const PORT = Number(process.env.PORT) || 8000;
 
 const gqlServer = new ApolloServer({
   typeDefs,
-  resolvers: {},
+  resolvers,
 });
 
-await gqlServer.start();
+await gqlServer.start().catch(console.error);
 
 app.use(express.json());
 app.use("/graphql", expressMiddleware(gqlServer));

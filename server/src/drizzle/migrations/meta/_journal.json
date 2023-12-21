@@ -8,6 +8,13 @@
       "when": 1703154686393,
       "tag": "0000_fantastic_darkhawk",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1703164778935,
+      "tag": "0001_fast_scarlet_witch",
+      "breakpoints": true
     }
   ]
 }

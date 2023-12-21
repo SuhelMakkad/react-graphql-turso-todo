@@ -13,8 +13,8 @@ export const users = sqliteTable(
   "users",
   {
     id: text("id").primaryKey(),
-    firstName: text("firstName").notNull(),
-    lastName: text("lastName").notNull(),
+    firstName: text("firstName"),
+    lastName: text("lastName"),
     email: text("email").notNull(),
     createdAt: integer("created_at").default(sql`(cast (unixepoch () as int))`),
     updatedAt: integer("updated_at").default(sql`(cast (unixepoch () as int))`),
@@ -39,7 +39,7 @@ export const todos = sqliteTable(
   "todos",
   {
     id: text("id").primaryKey(),
-    title: text("title").notNull(),
+    todo: text("todo").notNull(),
     completed: int("completed", { mode: "boolean" }).default(false),
     userId: text("user_id")
       .notNull()
@@ -47,9 +47,9 @@ export const todos = sqliteTable(
     createdAt: integer("created_at").default(sql`(cast (unixepoch () as int))`),
     updatedAt: integer("updated_at").default(sql`(cast (unixepoch () as int))`),
   },
-  (categories) => ({
-    userIdx: index("userId_idx").on(categories.userId),
-    titleIdx: index("title_idx").on(categories.title),
+  (todos) => ({
+    userIdx: index("userId_idx").on(todos.userId),
+    todoIdx: index("todo_idx").on(todos.todo),
   })
 );
 
