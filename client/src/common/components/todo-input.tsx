@@ -1,26 +1,59 @@
+import type { FormEvent } from "react";
+
+import { Loader2, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Button } from "./ui/button";
-import { Plus } from "lucide-react";
-import { FormEvent } from "react";
+import { Button } from "@/components/ui/button";
+
+import { apolloClient } from "@/graphql/index";
+import { useAddTodoMutation } from "@/graphql/hooks/use-add-todo-mutation";
+import { cn } from "@/utils/ui";
+
+const iconClass = "h-4 w-4";
 
 const TodoInput = () => {
-  const handleSubmit = (e: FormEvent) => {
+  const [addTodo, { loading }] = useAddTodoMutation();
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
-    const todo = formData.get("todo");
+    const todo = formData.get("todo") as string;
 
-    console.log({ todo });
+    if (!todo) return;
 
-    form.reset();
+    try {
+      await addTodo({
+        variables: {
+          todo,
+        },
+      });
+    } catch (e) {
+      console.error(e);
+    } finally {
+      form.reset();
+      apolloClient.refetchQueries({
+        include: "all",
+      });
+    }
   };
+
   return (
     <section className="space-y-2">
       <h1 className="md:text-xl font-medium">Add New Todo</h1>
+
       <form onSubmit={handleSubmit} className="flex gap-2 items-center">
         <Input name="todo" placeholder="Buy Milk..." className="grow" />
-        <Button size={"icon"} title="add todo" className="shrink-0">
-          <Plus />
+        <Button
+          disabled={loading}
+          size={"icon"}
+          title="add todo"
+          className="shrink-0"
+        >
+          {loading ? (
+            <Loader2 className={cn("animate-spin", iconClass)} />
+          ) : (
+            <Plus className={iconClass} />
+          )}
         </Button>
       </form>
     </section>

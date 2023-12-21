@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { gql } from "../types";
+import { gql } from "@/graphql/types";
 
 const GET_TODOS = gql(/* GraphQL */ `
   query GetTodos($userId: ID!) {

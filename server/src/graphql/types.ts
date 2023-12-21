@@ -18,7 +18,7 @@ export type Scalars = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  addTodo: Scalars['ID']['output'];
+  addTodo?: Maybe<Todo>;
   addUser: Scalars['ID']['output'];
   deleteTodo?: Maybe<Array<Todo>>;
 };
@@ -160,7 +160,7 @@ export type ResolversParentTypes = ResolversObject<{
 }>;
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  addTodo?: Resolver<ResolversTypes['ID'], ParentType, ContextType, RequireFields<MutationAddTodoArgs, 'todo'>>;
+  addTodo?: Resolver<Maybe<ResolversTypes['Todo']>, ParentType, ContextType, RequireFields<MutationAddTodoArgs, 'todo'>>;
   addUser?: Resolver<ResolversTypes['ID'], ParentType, ContextType, RequireFields<MutationAddUserArgs, 'email'>>;
   deleteTodo?: Resolver<Maybe<Array<ResolversTypes['Todo']>>, ParentType, ContextType, RequireFields<MutationDeleteTodoArgs, 'id'>>;
 }>;

@@ -28,7 +28,7 @@ export const resolvers: Resolvers = {
 
       await db.insert(todos).values(todo).execute();
 
-      return todo.id;
+      return todo;
     },
 
     addUser: async (parent, args, context) => {

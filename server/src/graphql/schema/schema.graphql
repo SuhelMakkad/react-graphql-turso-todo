@@ -17,7 +17,8 @@ type Query {
 }
 
 type Mutation {
-  addTodo(todo: String!, completed: Boolean): ID!
+  addTodo(todo: String!, completed: Boolean): Todo
+
   deleteTodo(id: ID!): [Todo!]
 
   addUser(email: String!, firstName: String, lastName: String): ID!
