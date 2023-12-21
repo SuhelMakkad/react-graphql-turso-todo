@@ -27,12 +27,12 @@ const TodoInput = () => {
           todo,
         },
       });
+      form.reset();
     } catch (e) {
       console.error(e);
     } finally {
-      form.reset();
       apolloClient.refetchQueries({
-        include: "all",
+        include: "active",
       });
     }
   };

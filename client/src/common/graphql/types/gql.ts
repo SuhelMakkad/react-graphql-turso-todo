@@ -14,6 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  mutation AddTodo($todo: String!, $completed: Boolean) {\n    addTodo(todo: $todo, completed: $completed) {\n      id\n    }\n  }\n": types.AddTodoDocument,
+    "\n  mutation DeleteTodo($id: ID!) {\n    deleteTodo(id: $id)\n  }\n": types.DeleteTodoDocument,
     "\n  query GetTodos($userId: ID!) {\n    todos(userId: $userId) {\n      id\n      todo\n      completed\n    }\n  }\n": types.GetTodosDocument,
 };
 
@@ -35,6 +36,10 @@ export function gql(source: string): unknown;
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation AddTodo($todo: String!, $completed: Boolean) {\n    addTodo(todo: $todo, completed: $completed) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation AddTodo($todo: String!, $completed: Boolean) {\n    addTodo(todo: $todo, completed: $completed) {\n      id\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation DeleteTodo($id: ID!) {\n    deleteTodo(id: $id)\n  }\n"): (typeof documents)["\n  mutation DeleteTodo($id: ID!) {\n    deleteTodo(id: $id)\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

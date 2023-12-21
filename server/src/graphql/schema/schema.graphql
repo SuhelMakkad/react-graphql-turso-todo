@@ -19,7 +19,7 @@ type Query {
 type Mutation {
   addTodo(todo: String!, completed: Boolean): Todo
 
-  deleteTodo(id: ID!): [Todo!]
+  deleteTodo(id: ID!): ID
 
   addUser(email: String!, firstName: String, lastName: String): ID!
 }

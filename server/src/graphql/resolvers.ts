@@ -31,6 +31,11 @@ export const resolvers: Resolvers = {
       return todo;
     },
 
+    deleteTodo: async (parent, args, context) => {
+      await db.delete(todos).where(sql`${todos.id} = ${args.id}`);
+      return args.id;
+    },
+
     addUser: async (parent, args, context) => {
       const user = {
         id: Date.now().toString(),
