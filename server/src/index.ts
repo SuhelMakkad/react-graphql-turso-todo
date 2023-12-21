@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 
@@ -15,6 +16,7 @@ const gqlServer = new ApolloServer({
 
 await gqlServer.start().catch(console.error);
 
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use("/graphql", expressMiddleware(gqlServer));
 
