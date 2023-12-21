@@ -1,22 +1,17 @@
 import { Trash } from "lucide-react";
 import { Button } from "./ui/button";
+import { useTodosQuery } from "@/graphql/hooks/use-todos-query";
 
-export type Todo = {
-  id: number;
-  todo: string;
-  completed: boolean;
-};
+const TodoList = () => {
+  const { data, loading } = useTodosQuery();
 
-export type TodoListProps = {
-  todos: Todo[];
-};
+  if (loading) {
+    return "loading...";
+  }
 
-const TodoList = ({ todos }: TodoListProps) => {
   return (
     <div className="flex flex-col gap-2">
-      {todos.map((todo) => (
-        <TodoCard key={todo.id} todo={todo} />
-      ))}
+      {data?.todos?.map((todo) => todo && <TodoCard key={todo.id} {...todo} />)}
     </div>
   );
 };
@@ -24,10 +19,11 @@ const TodoList = ({ todos }: TodoListProps) => {
 export default TodoList;
 
 type TodoCardPops = {
-  todo: Todo;
+  completed?: boolean | null;
+  todo: string;
 };
 
-const TodoCard = ({ todo }: TodoCardPops) => {
+const TodoCard = (todo: TodoCardPops) => {
   return (
     <div className="border shadow-sm p-2 rounded flex gap-2 items-center">
       <span>{todo.completed ? "✅" : "💼"}</span>

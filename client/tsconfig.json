@@ -19,6 +19,7 @@
       "@/styles*": ["./src/common/styles*"],
       "@/utils*": ["./src/common/utils*"],
       "@/components*": ["./src/common/components*"],
+      "@/graphql*": ["./src/common/graphql*"],
       "@/*": ["./src/*"]
     },
 

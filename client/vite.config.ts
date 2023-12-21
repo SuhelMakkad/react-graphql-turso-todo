@@ -11,6 +11,7 @@ export default defineConfig({
       "@/layouts": getPath("./src/layouts"),
       "@/pages": getPath("./src/pages"),
       "@/components": getPath("./src/common/components"),
+      "@/graphql": getPath("./src/common/graphql"),
       "@/hooks": getPath("./src/common/hooks"),
       "@/styles": getPath("./src/common/styles"),
       "@/utils": getPath("./src/common/utils"),

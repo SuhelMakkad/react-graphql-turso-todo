@@ -1,9 +1,4 @@
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  gql,
-} from "@apollo/client";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 const graphqlUrl = "http://localhost:8000/graphql";
 
