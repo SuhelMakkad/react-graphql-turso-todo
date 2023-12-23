@@ -36,7 +36,6 @@ jobs:
           cd client
           pnpm build
 
-      # Upload dist artifacts
       - uses: actions/upload-artifact@v3
         with:
           name: dist
@@ -44,13 +43,11 @@ jobs:
 
   deploy:
     name: Deploy
-    # Deploy only for main branch
     if: github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    # Manual deployment
     # See https://devblogs.microsoft.com/devops/i-need-manual-approvers-for-github-actions-and-i-got-them-now/
     environment:
       name: suhelmakkad.github.io/react-graphql-turso-todo
