@@ -8,13 +8,18 @@
     "db:generate": "drizzle-kit generate:sqlite --out ./src/drizzle/migrations --breakpoints --schema=./src/drizzle/schema.ts",
     "db:migrate": "tsx src/drizzle/migrate",
     "cg:generate": "graphql-codegen",
-    "build": "tsc",
-    "start": "node --experimental-specifier-resolution=node ./dist/src/index.js",
+    "build": "rimraf dist && tsc",
+    "add-build": "git add dist",
+    "start": "node ./dist/index.js",
     "dev": "tsx watch src/index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "pre-commit": [
+    "build",
+    "add-build"
+  ],
   "dependencies": {
     "@apollo/server": "^4.9.5",
     "@libsql/client": "0.4.0-pre.5",
@@ -34,6 +39,7 @@
     "dotenv": "^16.3.1",
     "drizzle-kit": "^0.20.7",
     "nodemon": "^3.0.2",
+    "rimraf": "^5.0.5",
     "tsx": "^4.7.0",
     "typescript": "^5.3.3"
   }
