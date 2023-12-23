@@ -1,9 +1,5 @@
 {
   "version": 2,
-  "buildCommand": "pnpm build",
-  "devCommand": "pnpm dev",
-  "installCommand": "pnpm i",
-  "outputDirectory": "dist",
   "builds": [
     {
       "src": "**.js",
