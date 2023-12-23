@@ -6,14 +6,15 @@
   "devCommand": "pnpm dev",
   "builds": [
     {
-      "src": "**.js",
-      "use": "@vercel/node"
+      "src": "dist/index.js",
+      "use": "@vercel/node",
+      "config": { "includeFiles": ["dist/**"] }
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/"
+      "dest": "dist/index.js"
     }
   ]
 }
