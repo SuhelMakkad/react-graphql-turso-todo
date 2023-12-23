@@ -24,4 +24,8 @@ app.get("/", (req, res) => {
   res.json({ message: "Running" });
 });
 
-app.listen(PORT, () => console.log(`🚀 started the server on ${PORT}`));
+export { app };
+
+if (process.env.ENV === "dev") {
+  app.listen(PORT, () => console.log(`🚀 started the server on ${PORT}`));
+}
