@@ -26,8 +26,6 @@ app.get("/", (req, res) => {
 
 export { app };
 
-if (process.env.ENV === "dev") {
-  app.listen(PORT, () => {
-    console.log(`🚀 started the server on ${PORT}`);
-  });
-}
+app.listen(PORT, () => {
+  console.log(`🚀 started the server on ${PORT}`);
+});
