@@ -1,5 +1,10 @@
 import { readFileSync } from "fs";
-export const typeDefs = readFileSync("./src/graphql/schema/schema.graphql", {
+import { fileURLToPath } from "url";
+import path, { dirname } from "path";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const filepath = path.resolve(__dirname, "./schema.graphql");
+export const typeDefs = readFileSync(filepath, {
     encoding: "utf-8",
 });
 //# sourceMappingURL=index.js.map
