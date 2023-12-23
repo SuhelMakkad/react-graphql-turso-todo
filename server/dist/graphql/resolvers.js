@@ -1,6 +1,6 @@
 import { sql } from "drizzle-orm";
-import { db } from "../drizzle/db";
-import { todos, users } from "../drizzle/schema";
+import { db } from "../drizzle/db.js";
+import { todos, users } from "../drizzle/schema.js";
 export const resolvers = {
     Query: {
         todos: (parent, args, context) => {

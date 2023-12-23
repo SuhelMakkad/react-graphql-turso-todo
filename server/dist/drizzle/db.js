@@ -1,7 +1,7 @@
 import { drizzle } from "drizzle-orm/libsql";
 import { createClient } from "@libsql/client";
 import "dotenv/config";
-import * as schema from "./schema";
+import * as schema from "./schema.js";
 const dbUrl = process.env.TURSO_DB_URL;
 const dbAuthToken = process.env.TURSO_DB_AUTH_TOKEN;
 if (!dbUrl || !dbAuthToken) {

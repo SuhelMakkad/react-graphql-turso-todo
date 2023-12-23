@@ -3,7 +3,7 @@ import cors from "cors";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 
-import { typeDefs } from "./graphql/schema";
+import { typeDefs } from "./graphql/schema/index";
 import { resolvers } from "./graphql/resolvers";
 
 const app = express();

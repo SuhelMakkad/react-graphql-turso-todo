@@ -8,9 +8,9 @@
     "db:generate": "drizzle-kit generate:sqlite --out ./src/drizzle/migrations --breakpoints --schema=./src/drizzle/schema.ts",
     "db:migrate": "tsx src/drizzle/migrate",
     "cg:generate": "graphql-codegen",
-    "build": "rimraf dist && tsc",
+    "build": "rimraf dist && tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
     "add-build": "git add dist",
-    "start": "node --experimental-specifier-resolution=node ./dist/index.js",
+    "start": "node ./dist/index.js",
     "dev": "tsx watch src/index.ts"
   },
   "keywords": [],
@@ -40,6 +40,7 @@
     "drizzle-kit": "^0.20.7",
     "nodemon": "^3.0.2",
     "rimraf": "^5.0.5",
+    "tsc-alias": "^1.8.8",
     "tsx": "^4.7.0",
     "typescript": "^5.3.3"
   }
