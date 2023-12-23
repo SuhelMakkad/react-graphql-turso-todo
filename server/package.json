@@ -9,7 +9,7 @@
     "db:migrate": "tsx src/drizzle/migrate",
     "cg:generate": "graphql-codegen",
     "compile": "tsc",
-    "start": "node ./dist/index.js",
+    "start": "node dist/index.js",
     "dev": "tsx watch src/index.ts"
   },
   "keywords": [],
