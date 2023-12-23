@@ -2,7 +2,7 @@ export const todos = [
     {
         id: 1,
         todo: "Do something nice for someone I care about",
-        completed: false,
+        completed: true,
         userId: 1,
     },
     {
