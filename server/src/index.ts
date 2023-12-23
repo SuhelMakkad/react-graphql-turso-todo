@@ -24,8 +24,8 @@ app.get("/", (req, res) => {
   res.json({ message: "Running" });
 });
 
-export { app };
-
 app.listen(PORT, () => {
   console.log(`🚀 started the server on ${PORT}`);
 });
+
+export { app };
