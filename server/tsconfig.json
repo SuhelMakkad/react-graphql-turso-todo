@@ -1,5 +1,5 @@
 {
-  "include": ["./src/**/*"],
+  "include": ["./src/**/*", "./src/**/*.graphql"],
   "compilerOptions": {
     "module": "ESNext",
     "esModuleInterop": true,
