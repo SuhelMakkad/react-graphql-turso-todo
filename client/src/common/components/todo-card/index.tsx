@@ -1,5 +1,6 @@
 import { CheckCircle2, CircleDashed } from "lucide-react";
 import TodoCardActions from "./actions";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type TodoCardPops = {
   id: string;
@@ -23,3 +24,9 @@ const TodoCard = (todo: TodoCardPops) => {
 };
 
 export default TodoCard;
+
+export const LoadingCard = () => {
+  return (
+    <Skeleton className="border shadow-sm p-2 rounded leading-normal h-8" />
+  );
+};
