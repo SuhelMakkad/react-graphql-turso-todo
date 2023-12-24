@@ -1,15 +1,16 @@
+import { Link, useSearchParams } from "react-router-dom";
 import { AlertCircleIcon } from "lucide-react";
 import LoginFrom from "./components/login-form";
 import FormFooter from "./components/footer";
-import { Link } from "react-router-dom";
 
 const LoginPage = () => {
-  const error = "";
-  const next = "";
-  //   const error = searchParams.error
-  //     ? decodeURIComponent(searchParams.error)
-  //     : "";
-  //   const next = searchParams.next ? decodeURIComponent(searchParams.next) : "";
+  const [searchParams] = useSearchParams();
+
+  const error = searchParams.get("error");
+  const next = searchParams.get("next");
+
+  const errorMessage = error ? decodeURIComponent(error) : "";
+  const nextPage = next ? decodeURIComponent(next) : "/";
 
   return (
     <main className="container">
@@ -18,14 +19,14 @@ const LoginPage = () => {
           Sign In
         </h1>
 
-        {!!error && (
+        {!!errorMessage && (
           <div className="flex items-center gap-2 rounded-lg border border-destructive p-4 text-sm text-destructive">
             <AlertCircleIcon className="h-4 w-4" />
-            <p className="">{error}</p>
+            <p className="">{errorMessage}</p>
           </div>
         )}
 
-        <LoginFrom nextPath={next} />
+        <LoginFrom nextPath={nextPage} />
 
         <div className="text-center">
           <span>Don't have an account? </span>
