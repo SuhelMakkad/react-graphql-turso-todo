@@ -1,4 +1,5 @@
 import { sql } from "drizzle-orm";
+import { v4 as uuid } from "uuid";
 import { db } from "../drizzle/db";
 import { todos, users } from "../drizzle/schema";
 import { Resolvers } from "./types";
@@ -20,7 +21,7 @@ export const resolvers: Resolvers = {
   Mutation: {
     addTodo: async (parent, args, context) => {
       const todo = {
-        id: Date.now().toString(),
+        id: uuid(),
         todo: args.todo,
         completed: args.completed || false,
         userId: "1703165024039",
@@ -48,7 +49,7 @@ export const resolvers: Resolvers = {
 
     addUser: async (parent, args, context) => {
       const user = {
-        id: Date.now().toString(),
+        id: uuid(),
         ...args,
       };
       await db.insert(users).values(user).execute();
