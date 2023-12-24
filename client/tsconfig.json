@@ -18,6 +18,7 @@
     "paths": {
       "@/styles*": ["./src/common/styles*"],
       "@/utils*": ["./src/common/utils*"],
+      "@/pages*": ["./src/pages*"],
       "@/components*": ["./src/common/components*"],
       "@/graphql*": ["./src/common/graphql*"],
       "@/*": ["./src/*"]

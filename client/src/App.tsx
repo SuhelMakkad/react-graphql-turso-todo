@@ -1,18 +1,15 @@
-import Navbar from "@/components/navbar";
-import TodoInput from "@/components/todo-input";
-import TodoList from "@/components/todo-list";
+import { lazy } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+const HomePage = lazy(() => import("@/pages/home"));
 
 const App = () => {
   return (
-    <>
-      <Navbar />
-
-      <main className="space-y-8 my-4">
-        <TodoInput />
-
-        <TodoList />
-      </main>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" Component={HomePage} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
