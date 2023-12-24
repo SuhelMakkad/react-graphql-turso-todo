@@ -21,5 +21,7 @@ type Mutation {
 
   deleteTodo(id: ID!): ID
 
+  updateTodoStatus(id: ID!, completed: Boolean!): ID!
+
   addUser(email: String!, firstName: String, lastName: String): ID!
 }

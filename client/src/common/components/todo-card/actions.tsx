@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import { useUpdateTodoMutation } from "@/graphql/hooks/use-update-todo-mutation";
 import { useDeleteTodoMutation } from "@/graphql/hooks/use-delete-todo-mutation";
 import { apolloClient } from "@/graphql/index";
 
@@ -29,7 +30,9 @@ export type TodoCardActionsProps = {
 type LoadingState = "deleting" | "updating" | null;
 
 const TodoCardActions = ({ id, completed }: TodoCardActionsProps) => {
+  const [updateTodo] = useUpdateTodoMutation();
   const [deleteTodo] = useDeleteTodoMutation();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loadingState, setLoadingState] = useState<LoadingState>(null);
 
@@ -37,6 +40,20 @@ const TodoCardActions = ({ id, completed }: TodoCardActionsProps) => {
     try {
       setLoadingState("deleting");
       await deleteTodo({ variables: { id: id } });
+    } catch (e) {
+      console.error(e);
+    } finally {
+      await apolloClient.refetchQueries({
+        include: "active",
+      });
+      setLoadingState(null);
+    }
+  };
+
+  const handleUpdateTodo = async () => {
+    try {
+      setLoadingState("updating");
+      await updateTodo({ variables: { id, completed: !completed } });
     } catch (e) {
       console.error(e);
     } finally {
@@ -69,7 +86,10 @@ const TodoCardActions = ({ id, completed }: TodoCardActionsProps) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-32 mr-4">
         {completed ? (
-          <DropdownMenuItem disabled={!!loadingState}>
+          <DropdownMenuItem
+            disabled={!!loadingState}
+            onClick={handleUpdateTodo}
+          >
             <Icon
               className="mr-2 h-4 w-4"
               isLoading={updating}
@@ -78,7 +98,10 @@ const TodoCardActions = ({ id, completed }: TodoCardActionsProps) => {
             <span>Pending</span>
           </DropdownMenuItem>
         ) : (
-          <DropdownMenuItem disabled={!!loadingState}>
+          <DropdownMenuItem
+            disabled={!!loadingState}
+            onClick={handleUpdateTodo}
+          >
             <Icon
               className="mr-2 h-4 w-4"
               isLoading={updating}

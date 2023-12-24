@@ -16,6 +16,7 @@ const documents = {
     "\n  mutation AddTodo($todo: String!, $completed: Boolean) {\n    addTodo(todo: $todo, completed: $completed) {\n      id\n    }\n  }\n": types.AddTodoDocument,
     "\n  mutation DeleteTodo($id: ID!) {\n    deleteTodo(id: $id)\n  }\n": types.DeleteTodoDocument,
     "\n  query GetTodos($userId: ID!) {\n    todos(userId: $userId) {\n      id\n      todo\n      completed\n    }\n  }\n": types.GetTodosDocument,
+    "\n  mutation UPDATE_TODO($id: ID!, $completed: Boolean!) {\n    updateTodoStatus(id: $id, completed: $completed)\n  }\n": types.Update_TodoDocument,
 };
 
 /**
@@ -44,6 +45,10 @@ export function gql(source: "\n  mutation DeleteTodo($id: ID!) {\n    deleteTodo
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  query GetTodos($userId: ID!) {\n    todos(userId: $userId) {\n      id\n      todo\n      completed\n    }\n  }\n"): (typeof documents)["\n  query GetTodos($userId: ID!) {\n    todos(userId: $userId) {\n      id\n      todo\n      completed\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation UPDATE_TODO($id: ID!, $completed: Boolean!) {\n    updateTodoStatus(id: $id, completed: $completed)\n  }\n"): (typeof documents)["\n  mutation UPDATE_TODO($id: ID!, $completed: Boolean!) {\n    updateTodoStatus(id: $id, completed: $completed)\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};
