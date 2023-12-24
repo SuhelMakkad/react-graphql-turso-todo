@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -19,18 +20,20 @@ import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 
 import { credentialsSchema, type Credentials } from "@/utils/auth";
+import { authenticate } from "@/common/api/auth";
+import { useNavigate } from "react-router-dom";
+import { routes } from "@/utils/route";
+import { useJWTStore } from "@/common/store/jwt";
 
 const defaultValues: Credentials = {
   email: "",
   password: "",
 };
 
-export type UserLoginFormProps = {
-  nextPath?: string;
-};
-
-const UserLoginForm = ({ nextPath }: UserLoginFormProps) => {
+const UserLoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const setJWT = useJWTStore((state) => state.setJWT);
+  const navigate = useNavigate();
 
   const form = useForm<Credentials>({
     resolver: zodResolver(credentialsSchema),
@@ -40,19 +43,18 @@ const UserLoginForm = ({ nextPath }: UserLoginFormProps) => {
   const onSubmit = async (values: Credentials) => {
     console.log(values);
     setIsLoading(true);
-    // const res = await authenticate(values);
+    const jwt = await authenticate(values.email, values.password);
+
+    if (jwt) {
+      navigate(routes.home);
+      setJWT(jwt);
+    } else {
+      toast("Wrong credentials", {
+        description: "Please verify your email and password",
+      });
+    }
 
     setIsLoading(false);
-
-    // if (res && res.status === "success") {
-    //   router.replace(nextPath ? nextPath : routes.dashboard(res.user.id));
-    // } else {
-    //   toast({
-    //     variant: "destructive",
-    //     title: res?.message || "Uh oh! Wrong credentials.",
-    //     description: "Please verify your email and password again.",
-    //   });
-    // }
   };
 
   return (

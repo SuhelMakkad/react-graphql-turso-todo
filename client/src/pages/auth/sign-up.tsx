@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import CreateUserForm from "./components/create-account-form";
 import FormFooter from "./components/footer";
+import ErrorAlert from "./components/error-alert";
 import { routes } from "@/utils/route";
 
 const LoginPage = () => {
@@ -10,6 +11,8 @@ const LoginPage = () => {
         <h1 className="mb-4 text-center text-2xl font-semibold tracking-tight">
           Create New Account
         </h1>
+
+        <ErrorAlert />
 
         <CreateUserForm />
 

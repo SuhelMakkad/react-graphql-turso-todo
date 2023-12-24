@@ -1,12 +1,31 @@
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  createHttpLink,
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
+import { apiBaseUrl } from "@/utils/route";
+import { useJWTStore } from "../store/jwt";
 
-const graphqlUrl =
-  import.meta.env.VITE_ENV === "dev"
-    ? "http://localhost:8000/graphql"
-    : "https://react-graphql-turso-todo.vercel.app/graphql";
+const graphqlUrl = `${apiBaseUrl}/graphql`;
+
+const httpLink = createHttpLink({
+  uri: graphqlUrl,
+});
+
+const authLink = setContext((_, { headers }) => {
+  const token = useJWTStore.getState().jwt;
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    },
+  };
+});
 
 export const apolloClient = new ApolloClient({
-  uri: graphqlUrl,
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 
