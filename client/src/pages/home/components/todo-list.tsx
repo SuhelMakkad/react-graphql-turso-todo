@@ -1,5 +1,5 @@
 import { useTodosQuery } from "@/graphql/hooks/use-todos-query";
-import TodoCard, { LoadingCard } from "@/components/todo-card";
+import TodoCard, { LoadingCard } from "./todo-card";
 
 const loadingState = (
   <div className="flex flex-col gap-2">
