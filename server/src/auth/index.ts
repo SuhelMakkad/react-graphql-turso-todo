@@ -8,7 +8,10 @@ import { sql } from "drizzle-orm";
 export const authRouter = express.Router();
 
 authRouter.post("/sign-up", async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+  const { firstName, lastName, email, password } = req.body as Record<
+    string,
+    string
+  >;
   if (!firstName || !lastName || !email || !password) {
     return res.status(400).json({
       status: "failed",
@@ -21,10 +24,11 @@ authRouter.post("/sign-up", async (req, res) => {
     firstName,
     lastName,
     email,
+    password,
   };
 
   try {
-    await db.insert(users).values(user);
+    await db.insert(users).values(user).execute();
     const jwt = await createJWT({
       userId: user.id,
     });
@@ -51,7 +55,8 @@ authRouter.get("/login", async (req, res) => {
     const user = await db
       .select()
       .from(users)
-      .where(sql`${users.email} = ${email}`);
+      .where(sql`${users.email} = ${email}`)
+      .execute();
 
     if (!user?.length) {
       throw Error("NotFound");

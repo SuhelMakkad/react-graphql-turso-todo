@@ -13,27 +13,22 @@ export const users = sqliteTable(
   "users",
   {
     id: text("id").primaryKey(),
-    firstName: text("firstName"),
-    lastName: text("lastName"),
+    firstName: text("first_name"),
+    lastName: text("last_name"),
     email: text("email").notNull(),
+    password: text("password").notNull(),
     createdAt: integer("created_at").default(sql`(cast (unixepoch () as int))`),
     updatedAt: integer("updated_at").default(sql`(cast (unixepoch () as int))`),
   },
   (users) => ({
     emailIdx: uniqueIndex("email_idx").on(users.email),
+    emailPasswordIdx: uniqueIndex("email_password_idx").on(users.password),
     firstNameLastNameIdx: index("first_name_last_name_idx").on(
       users.firstName,
       users.lastName
     ),
   })
 );
-
-export const passwords = sqliteTable("passwords", {
-  hash: text("hash").notNull(),
-  userId: text("user_id")
-    .notNull()
-    .references(() => users.id),
-});
 
 export const todos = sqliteTable(
   "todos",
@@ -54,18 +49,7 @@ export const todos = sqliteTable(
 );
 
 export const usersRelations = relations(users, ({ one, many }) => ({
-  password: one(passwords, {
-    fields: [users.id],
-    references: [passwords.userId],
-  }),
   todos: many(todos),
-}));
-
-export const passwordsRelations = relations(passwords, ({ one }) => ({
-  user: one(users, {
-    fields: [passwords.userId],
-    references: [users.id],
-  }),
 }));
 
 export const todosRelations = relations(todos, ({ one }) => ({

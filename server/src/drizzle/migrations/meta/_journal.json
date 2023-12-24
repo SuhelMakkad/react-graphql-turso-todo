@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1703154686393,
-      "tag": "0000_fantastic_darkhawk",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1703164778935,
-      "tag": "0001_fast_scarlet_witch",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1703165130276,
-      "tag": "0002_cultured_starhawk",
+      "when": 1703424867946,
+      "tag": "0000_fair_blob",
       "breakpoints": true
     }
   ]

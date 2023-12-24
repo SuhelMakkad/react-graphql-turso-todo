@@ -24,7 +24,7 @@ export const resolvers: Resolvers = {
         id: uuid(),
         todo: args.todo,
         completed: args.completed || false,
-        userId: "1703165024039",
+        userId: "6ee7dc17-a32e-458e-9cff-3041f9bbca3c",
       };
 
       await db.insert(todos).values(todo).execute();
@@ -45,16 +45,6 @@ export const resolvers: Resolvers = {
         })
         .where(sql`${todos.id} = ${args.id}`);
       return args.id;
-    },
-
-    addUser: async (parent, args, context) => {
-      const user = {
-        id: uuid(),
-        ...args,
-      };
-      await db.insert(users).values(user).execute();
-
-      return user.id;
     },
   },
 };

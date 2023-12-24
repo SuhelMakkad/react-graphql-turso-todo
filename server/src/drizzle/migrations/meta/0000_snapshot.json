@@ -1,46 +1,9 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "a3355605-ed50-4b25-8bb3-747f05cd365c",
+  "id": "7d05cb07-f1e7-4f8a-b5a3-81a3a691db2f",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "passwords": {
-      "name": "passwords",
-      "columns": {
-        "hash": {
-          "name": "hash",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "passwords_user_id_users_id_fk": {
-          "name": "passwords_user_id_users_id_fk",
-          "tableFrom": "passwords",
-          "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
     "todos": {
       "name": "todos",
       "columns": {
@@ -51,8 +14,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "title": {
-          "name": "title",
+        "todo": {
+          "name": "todo",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -98,10 +61,10 @@
           ],
           "isUnique": false
         },
-        "title_idx": {
-          "name": "title_idx",
+        "todo_idx": {
+          "name": "todo_idx",
           "columns": [
-            "title"
+            "todo"
           ],
           "isUnique": false
         }
@@ -134,22 +97,29 @@
           "notNull": true,
           "autoincrement": false
         },
-        "firstName": {
-          "name": "firstName",
+        "first_name": {
+          "name": "first_name",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
-        "lastName": {
-          "name": "lastName",
+        "last_name": {
+          "name": "last_name",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
         "email": {
           "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "password": {
+          "name": "password",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -180,11 +150,18 @@
           ],
           "isUnique": true
         },
+        "email_password_idx": {
+          "name": "email_password_idx",
+          "columns": [
+            "password"
+          ],
+          "isUnique": true
+        },
         "first_name_last_name_idx": {
           "name": "first_name_last_name_idx",
           "columns": [
-            "firstName",
-            "lastName"
+            "first_name",
+            "last_name"
           ],
           "isUnique": false
         }
