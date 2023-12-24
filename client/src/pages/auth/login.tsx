@@ -2,6 +2,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { AlertCircleIcon } from "lucide-react";
 import LoginFrom from "./components/login-form";
 import FormFooter from "./components/footer";
+import { routes } from "@/utils/route";
 
 const LoginPage = () => {
   const [searchParams] = useSearchParams();
@@ -30,7 +31,7 @@ const LoginPage = () => {
 
         <div className="text-center">
           <span>Don't have an account? </span>
-          <Link to={"#"} className="underline">
+          <Link to={routes.signUp} className="underline">
             create account
           </Link>
         </div>

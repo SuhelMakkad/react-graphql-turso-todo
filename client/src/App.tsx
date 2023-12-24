@@ -1,17 +1,23 @@
-import { lazy } from "react";
+import { routes } from "@/utils/route";
+import { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const HomePage = lazy(() => import("@/pages/home"));
-const LoginPage = lazy(() => import("@/pages/login"));
+const LoginPage = lazy(() => import("@/pages/auth/login"));
+const SignUpPage = lazy(() => import("@/pages/auth/sign-up"));
 
-const routes = [
+const routesMap = [
   {
-    path: "/",
+    path: routes.home,
     Component: HomePage,
   },
   {
-    path: "/login",
+    path: routes.login,
     Component: LoginPage,
+  },
+  {
+    path: routes.signUp,
+    Component: SignUpPage,
   },
 ];
 
@@ -19,8 +25,16 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {routes.map((route) => (
-          <Route path={route.path} Component={route.Component} />
+        {routesMap.map((route) => (
+          <Route
+            key={route.path}
+            path={route.path}
+            Component={() => (
+              <Suspense>
+                <route.Component />
+              </Suspense>
+            )}
+          />
         ))}
       </Routes>
     </BrowserRouter>
