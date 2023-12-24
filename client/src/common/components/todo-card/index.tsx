@@ -15,8 +15,8 @@ const TodoCard = (todo: TodoCardPops) => {
       ) : (
         <CircleDashed className="h-4 w-4" />
       )}
-      <span className="text-sm md:text-base">{todo.todo}</span>
 
+      <span className="text-sm md:text-base">{todo.todo}</span>
       <TodoCardActions id={todo.id} completed={todo.completed} />
     </div>
   );

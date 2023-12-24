@@ -29,8 +29,9 @@ export type TodoCardActionsProps = {
 type LoadingState = "deleting" | "updating" | null;
 
 const TodoCardActions = ({ id, completed }: TodoCardActionsProps) => {
-  const [loadingState, setLoadingState] = useState<LoadingState>(null);
   const [deleteTodo] = useDeleteTodoMutation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loadingState, setLoadingState] = useState<LoadingState>(null);
 
   const handleDelete = async () => {
     try {
@@ -50,7 +51,12 @@ const TodoCardActions = ({ id, completed }: TodoCardActionsProps) => {
   const updating = loadingState === "updating";
 
   return (
-    <DropdownMenu>
+    <DropdownMenu
+      open={isModalOpen}
+      onOpenChange={(flag) => {
+        !loadingState && setIsModalOpen(flag);
+      }}
+    >
       <DropdownMenuTrigger asChild>
         <Button
           size="icon"
@@ -63,7 +69,7 @@ const TodoCardActions = ({ id, completed }: TodoCardActionsProps) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-32 mr-4">
         {completed ? (
-          <DropdownMenuItem disabled={updating}>
+          <DropdownMenuItem disabled={!!loadingState}>
             <Icon
               className="mr-2 h-4 w-4"
               isLoading={updating}
@@ -72,7 +78,7 @@ const TodoCardActions = ({ id, completed }: TodoCardActionsProps) => {
             <span>Pending</span>
           </DropdownMenuItem>
         ) : (
-          <DropdownMenuItem disabled={updating}>
+          <DropdownMenuItem disabled={!!loadingState}>
             <Icon
               className="mr-2 h-4 w-4"
               isLoading={updating}
@@ -81,7 +87,7 @@ const TodoCardActions = ({ id, completed }: TodoCardActionsProps) => {
             <span>Done</span>
           </DropdownMenuItem>
         )}
-        <DropdownMenuItem disabled={deleting} onClick={handleDelete}>
+        <DropdownMenuItem disabled={!!loadingState} onClick={handleDelete}>
           <Icon className="mr-2 h-4 w-4" isLoading={deleting} Icon={Trash} />
           <span>Delete</span>
         </DropdownMenuItem>
