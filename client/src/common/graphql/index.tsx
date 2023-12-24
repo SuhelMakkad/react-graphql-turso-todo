@@ -13,7 +13,5 @@ export const apolloClient = new ApolloClient({
 export const ApolloGraphqlProvider = ({
   children,
 }: React.PropsWithChildren) => {
-  console.log(import.meta.env.VITE_ENV);
-  console.log(graphqlUrl);
   return <ApolloProvider client={apolloClient}>{children}</ApolloProvider>;
 };
