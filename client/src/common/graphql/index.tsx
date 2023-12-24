@@ -5,9 +5,6 @@ const graphqlUrl =
     ? "http://localhost:8000/graphql"
     : "https://react-graphql-turso-todo.vercel.app/graphql";
 
-console.log(import.meta.env.VITE_ENV);
-console.log(graphqlUrl);
-
 export const apolloClient = new ApolloClient({
   uri: graphqlUrl,
   cache: new InMemoryCache(),
@@ -16,5 +13,7 @@ export const apolloClient = new ApolloClient({
 export const ApolloGraphqlProvider = ({
   children,
 }: React.PropsWithChildren) => {
+  console.log(import.meta.env.VITE_ENV);
+  console.log(graphqlUrl);
   return <ApolloProvider client={apolloClient}>{children}</ApolloProvider>;
 };
