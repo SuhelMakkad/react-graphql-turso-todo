@@ -12,7 +12,7 @@ type User {
 }
 
 type Query {
-  todos(userId: ID!): [Todo]
+  todos: [Todo]
   users: [User]
 }
 

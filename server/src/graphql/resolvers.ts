@@ -15,7 +15,7 @@ export const resolvers: Resolvers = {
           completed: todos.completed,
         })
         .from(todos)
-        .where(sql`${todos.userId} = ${args.userId}`);
+        .where(sql`${todos.userId} = ${context.userId}`);
     },
   },
   Mutation: {
@@ -24,7 +24,7 @@ export const resolvers: Resolvers = {
         id: uuid(),
         todo: args.todo,
         completed: args.completed || false,
-        userId: "6ee7dc17-a32e-458e-9cff-3041f9bbca3c",
+        userId: context.userId,
       };
 
       await db.insert(todos).values(todo).execute();
@@ -33,7 +33,11 @@ export const resolvers: Resolvers = {
     },
 
     deleteTodo: async (parent, args, context) => {
-      await db.delete(todos).where(sql`${todos.id} = ${args.id}`);
+      await db
+        .delete(todos)
+        .where(
+          sql`${todos.id} = ${args.id} AND ${todos.userId} = ${context.userId}`
+        );
       return args.id;
     },
 
@@ -43,7 +47,9 @@ export const resolvers: Resolvers = {
         .set({
           completed: args.completed || false,
         })
-        .where(sql`${todos.id} = ${args.id}`);
+        .where(
+          sql`${todos.id} = ${args.id} AND ${todos.userId} = ${context.userId}`
+        );
       return args.id;
     },
   },

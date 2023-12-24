@@ -1,9 +1,9 @@
 import express from "express";
 import { v4 as uuid } from "uuid";
-import { db } from "../drizzle/db.js";
-import { createJWT } from "./utils.js";
-import { users } from "../drizzle/schema.js";
 import { sql } from "drizzle-orm";
+import { db } from "../drizzle/db.js";
+import { users } from "../drizzle/schema.js";
+import { encodeJWT } from "./utils.js";
 export const authRouter = express.Router();
 authRouter.post("/sign-up", async (req, res) => {
     const { firstName, lastName, email, password } = req.body;
@@ -18,10 +18,11 @@ authRouter.post("/sign-up", async (req, res) => {
         firstName,
         lastName,
         email,
+        password,
     };
     try {
-        await db.insert(users).values(user);
-        const jwt = await createJWT({
+        await db.insert(users).values(user).execute();
+        const jwt = await encodeJWT({
             userId: user.id,
         });
         return res.json({
@@ -45,11 +46,12 @@ authRouter.get("/login", async (req, res) => {
         const user = await db
             .select()
             .from(users)
-            .where(sql `${users.email} = ${email}`);
+            .where(sql `${users.email} = ${email}`)
+            .execute();
         if (!user?.length) {
             throw Error("NotFound");
         }
-        const jwt = await createJWT({
+        const jwt = await encodeJWT({
             userId: user[0].id,
         });
         return res.json({

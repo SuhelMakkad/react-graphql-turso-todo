@@ -1,9 +1,9 @@
 import express from "express";
 import { v4 as uuid } from "uuid";
-import { db } from "../drizzle/db";
-import { createJWT } from "./utils";
-import { users } from "../drizzle/schema";
 import { sql } from "drizzle-orm";
+import { db } from "../drizzle/db";
+import { users } from "../drizzle/schema";
+import { encodeJWT } from "./utils";
 
 export const authRouter = express.Router();
 
@@ -29,7 +29,7 @@ authRouter.post("/sign-up", async (req, res) => {
 
   try {
     await db.insert(users).values(user).execute();
-    const jwt = await createJWT({
+    const jwt = await encodeJWT({
       userId: user.id,
     });
 
@@ -62,7 +62,7 @@ authRouter.get("/login", async (req, res) => {
       throw Error("NotFound");
     }
 
-    const jwt = await createJWT({
+    const jwt = await encodeJWT({
       userId: user[0].id,
     });
 

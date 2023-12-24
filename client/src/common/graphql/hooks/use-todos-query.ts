@@ -2,8 +2,8 @@ import { useQuery } from "@apollo/client";
 import { gql } from "@/graphql/types";
 
 const GET_TODOS = gql(/* GraphQL */ `
-  query GetTodos($userId: ID!) {
-    todos(userId: $userId) {
+  query GetTodos {
+    todos {
       id
       todo
       completed
@@ -12,9 +12,5 @@ const GET_TODOS = gql(/* GraphQL */ `
 `);
 
 export const useTodosQuery = () => {
-  return useQuery(GET_TODOS, {
-    variables: {
-      userId: "1703165024039",
-    },
-  });
+  return useQuery(GET_TODOS);
 };

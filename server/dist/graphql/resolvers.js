@@ -1,7 +1,7 @@
 import { sql } from "drizzle-orm";
 import { v4 as uuid } from "uuid";
 import { db } from "../drizzle/db.js";
-import { todos, users } from "../drizzle/schema.js";
+import { todos } from "../drizzle/schema.js";
 export const resolvers = {
     Query: {
         todos: (parent, args, context) => {
@@ -13,7 +13,7 @@ export const resolvers = {
                 completed: todos.completed,
             })
                 .from(todos)
-                .where(sql `${todos.userId} = ${args.userId}`);
+                .where(sql `${todos.userId} = ${context.userId}`);
         },
     },
     Mutation: {
@@ -22,13 +22,15 @@ export const resolvers = {
                 id: uuid(),
                 todo: args.todo,
                 completed: args.completed || false,
-                userId: "1703165024039",
+                userId: context.userId,
             };
             await db.insert(todos).values(todo).execute();
             return todo;
         },
         deleteTodo: async (parent, args, context) => {
-            await db.delete(todos).where(sql `${todos.id} = ${args.id}`);
+            await db
+                .delete(todos)
+                .where(sql `${todos.id} = ${args.id} AND ${todos.userId} = ${context.userId}`);
             return args.id;
         },
         updateTodoStatus: async (parent, args, context) => {
@@ -37,16 +39,8 @@ export const resolvers = {
                 .set({
                 completed: args.completed || false,
             })
-                .where(sql `${todos.id} = ${args.id}`);
+                .where(sql `${todos.id} = ${args.id} AND ${todos.userId} = ${context.userId}`);
             return args.id;
-        },
-        addUser: async (parent, args, context) => {
-            const user = {
-                id: uuid(),
-                ...args,
-            };
-            await db.insert(users).values(user).execute();
-            return user.id;
         },
     },
 };

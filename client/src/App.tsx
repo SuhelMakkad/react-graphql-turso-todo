@@ -29,11 +29,11 @@ const App = () => {
           <Route
             key={route.path}
             path={route.path}
-            Component={() => (
+            element={
               <Suspense>
                 <route.Component />
               </Suspense>
-            )}
+            }
           />
         ))}
       </Routes>

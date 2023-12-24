@@ -16,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { UserSchema, userSchema } from "@/utils/auth";
+import { useAddUserMutation } from "@/graphql/hooks/use-add-user-mutation";
 
 const defaultValues: UserSchema = {
   firstName: "",
@@ -25,6 +26,7 @@ const defaultValues: UserSchema = {
 };
 
 const CreateUserForm = () => {
+  const [addUser] = useAddUserMutation();
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<UserSchema>({
@@ -33,7 +35,21 @@ const CreateUserForm = () => {
   });
 
   const onSubmit = async (values: UserSchema) => {
-    // setIsLoading(true);
+    setIsLoading(true);
+
+    try {
+      const userId = await addUser({
+        variables: {
+          email: values.email,
+          firstName: values.firstName,
+          lastName: values.lastName,
+        },
+      });
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsLoading(false);
+    }
     // const res = await createAccount(values);
     // setIsLoading(false);
     // if (res && res.status === "success") {

@@ -54,11 +54,6 @@ export type Query = {
   users?: Maybe<Array<Maybe<User>>>;
 };
 
-
-export type QueryTodosArgs = {
-  userId: Scalars['ID']['input'];
-};
-
 export type Todo = {
   __typename?: 'Todo';
   completed?: Maybe<Scalars['Boolean']['output']>;
@@ -174,7 +169,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  todos?: Resolver<Maybe<Array<Maybe<ResolversTypes['Todo']>>>, ParentType, ContextType, RequireFields<QueryTodosArgs, 'userId'>>;
+  todos?: Resolver<Maybe<Array<Maybe<ResolversTypes['Todo']>>>, ParentType, ContextType>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
 }>;
 
