@@ -47,6 +47,7 @@ const TodoCardActions = ({ id, completed }: TodoCardActionsProps) => {
         include: "active",
       });
       setLoadingState(null);
+      setIsModalOpen(false);
     }
   };
 
@@ -61,6 +62,7 @@ const TodoCardActions = ({ id, completed }: TodoCardActionsProps) => {
         include: "active",
       });
       setLoadingState(null);
+      setIsModalOpen(false);
     }
   };
 
