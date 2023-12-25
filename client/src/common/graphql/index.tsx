@@ -10,10 +10,6 @@ import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 import { apiBaseUrl, routes } from "@/utils/route";
 import { useJWTStore } from "../store/jwt";
-import { loadErrorMessages, loadDevMessages } from "@apollo/client/dev";
-
-loadDevMessages();
-loadErrorMessages();
 
 const graphqlUrl = `${apiBaseUrl}/graphql`;
 
@@ -43,7 +39,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   // unauthorized
   const status = (networkError as ServerError).response.status;
   if (status === 401) {
-    window.location.href = routes.login;
+    window.location.href = routes.login + "?error=Please login to continue";
   }
 });
 

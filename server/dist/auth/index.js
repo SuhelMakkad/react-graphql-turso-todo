@@ -3,7 +3,7 @@ import { v4 as uuid } from "uuid";
 import { sql } from "drizzle-orm";
 import { db } from "../drizzle/db.js";
 import { users } from "../drizzle/schema.js";
-import { encodeJWT } from "./utils.js";
+import { encodeJWT, generateHash, validateHash } from "./utils.js";
 export const authRouter = express.Router();
 authRouter.post("/sign-up", async (req, res) => {
     const { firstName, lastName, email, password } = req.body;
@@ -18,7 +18,7 @@ authRouter.post("/sign-up", async (req, res) => {
         firstName,
         lastName,
         email,
-        password,
+        password: generateHash(password),
     };
     try {
         await db.insert(users).values(user).execute();
@@ -51,6 +51,10 @@ authRouter.get("/login", async (req, res) => {
         if (!user?.length) {
             throw Error("NotFound");
         }
+        const isValid = validateHash(password, user[0].password);
+        if (!isValid) {
+            throw Error("Unauthorized");
+        }
         const jwt = await encodeJWT({
             user: { id: user[0].id },
         });
@@ -62,7 +66,7 @@ authRouter.get("/login", async (req, res) => {
         console.error(e);
         return res.status(400).json({
             status: "failed",
-            message: "user not found",
+            message: "Invalid credentials",
         });
     }
 });

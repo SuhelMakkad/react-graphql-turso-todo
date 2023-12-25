@@ -1,4 +1,3 @@
-import { GraphQLError } from "graphql";
 import type { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { verifyJWT } from "../auth/utils";
