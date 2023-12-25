@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
+import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { useJWTStore } from "@/common/store/jwt";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,8 +18,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
-import { UserSchema, userSchema } from "@/utils/auth";
-import { useAddUserMutation } from "@/graphql/hooks/use-add-user-mutation";
+
+import { createAccount } from "@/common/api/auth";
+import { userSchema, type UserSchema } from "@/utils/auth";
+import { routes } from "@/utils/route";
 
 const defaultValues: UserSchema = {
   firstName: "",
@@ -26,7 +31,8 @@ const defaultValues: UserSchema = {
 };
 
 const CreateUserForm = () => {
-  const [addUser] = useAddUserMutation();
+  const navigate = useNavigate();
+  const setJWT = useJWTStore((state) => state.setJWT);
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<UserSchema>({
@@ -37,30 +43,20 @@ const CreateUserForm = () => {
   const onSubmit = async (values: UserSchema) => {
     setIsLoading(true);
 
-    try {
-      const userId = await addUser({
-        variables: {
-          email: values.email,
-          firstName: values.firstName,
-          lastName: values.lastName,
+    const jwt = await createAccount(values);
+    if (jwt) {
+      setJWT(jwt);
+    } else {
+      toast("Account exists", {
+        description: "Please login to continue",
+        action: {
+          label: "Login",
+          onClick: () => navigate(routes.login),
         },
       });
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setIsLoading(false);
     }
-    // const res = await createAccount(values);
-    // setIsLoading(false);
-    // if (res && res.status === "success") {
-    //   router.replace(routes.dashboard(res.user.id));
-    // } else {
-    //   toast({
-    //     variant: "destructive",
-    //     title: res?.message || "Uh oh! something went wrong.",
-    //     description: "Please verify all the input fields.",
-    //   });
-    // }
+
+    setIsLoading(false);
   };
 
   return (
