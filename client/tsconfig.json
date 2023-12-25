@@ -16,6 +16,7 @@
 
     "baseUrl": ".",
     "paths": {
+      "@/store*": ["./src/common/store*"],
       "@/styles*": ["./src/common/styles*"],
       "@/utils*": ["./src/common/utils*"],
       "@/pages*": ["./src/pages*"],

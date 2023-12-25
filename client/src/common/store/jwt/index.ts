@@ -6,7 +6,7 @@ type JWTState = {
 };
 
 type JWTStore = JWTState & {
-  setJWT: (jwt: string) => void;
+  setJWT: (jwt: string | null) => void;
 };
 
 export const useJWTStore = create<JWTStore>()(
