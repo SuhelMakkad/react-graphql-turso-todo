@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { useJWTStore } from "@/common/store/jwt";
 import { useForm } from "react-hook-form";
@@ -35,20 +35,22 @@ const dummyValues: Credentials = {
   password: "test@123",
 };
 
-const UserLoginForm = () => {
+export type UserLoginFormProps = {
+  dummy: boolean;
+};
+
+const UserLoginForm = ({ dummy }: UserLoginFormProps) => {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+
   const setJWT = useJWTStore((state) => state.setJWT);
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<Credentials>({
     resolver: zodResolver(credentialsSchema),
-    defaultValues:
-      searchParams.get("dummy") === "true" ? dummyValues : defaultValues,
+    defaultValues: dummy ? dummyValues : defaultValues,
   });
 
   const onSubmit = async (values: Credentials) => {
-    console.log(values);
     setIsLoading(true);
     const jwt = await authenticate(values.email, values.password);
 
