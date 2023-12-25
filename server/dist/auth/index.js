@@ -23,7 +23,7 @@ authRouter.post("/sign-up", async (req, res) => {
     try {
         await db.insert(users).values(user).execute();
         const jwt = await encodeJWT({
-            userId: user.id,
+            user: { id: user.id },
         });
         return res.json({
             status: "success",
@@ -52,7 +52,7 @@ authRouter.get("/login", async (req, res) => {
             throw Error("NotFound");
         }
         const jwt = await encodeJWT({
-            userId: user[0].id,
+            user: { id: user[0].id },
         });
         return res.json({
             jwt,

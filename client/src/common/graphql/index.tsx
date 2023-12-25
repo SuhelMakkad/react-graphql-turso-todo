@@ -3,10 +3,17 @@ import {
   InMemoryCache,
   ApolloProvider,
   createHttpLink,
+  from,
+  type ServerError,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import { apiBaseUrl } from "@/utils/route";
+import { onError } from "@apollo/client/link/error";
+import { apiBaseUrl, routes } from "@/utils/route";
 import { useJWTStore } from "../store/jwt";
+import { loadErrorMessages, loadDevMessages } from "@apollo/client/dev";
+
+loadDevMessages();
+loadErrorMessages();
 
 const graphqlUrl = `${apiBaseUrl}/graphql`;
 
@@ -24,8 +31,24 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors)
+    graphQLErrors.forEach(({ message, locations, path }) =>
+      console.log(
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+      )
+    );
+  if (networkError) console.log(`[Network error]: ${networkError}`);
+
+  // unauthorized
+  const status = (networkError as ServerError).response.status;
+  if (status === 401) {
+    window.location.href = routes.login;
+  }
+});
+
 export const apolloClient = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: from([errorLink, authLink, httpLink]),
   cache: new InMemoryCache(),
 });
 

@@ -1,9 +1,8 @@
-import { Link, useSearchParams } from "react-router-dom";
-import { AlertCircleIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 import LoginFrom from "./components/login-form";
+import ErrorAlert from "./components/error-alert";
 import FormFooter from "./components/footer";
 import { routes } from "@/utils/route";
-import ErrorAlert from "./components/error-alert";
 
 const LoginPage = () => {
   return (

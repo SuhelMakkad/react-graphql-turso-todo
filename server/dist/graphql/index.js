@@ -1,16 +1,19 @@
 import { expressMiddleware } from "@apollo/server/express4";
 import { verifyJWT } from "../auth/utils.js";
 export const graphqlMiddleware = (server) => expressMiddleware(server, {
-    context: async ({ req }) => {
-        const token = req.headers.authorization?.split("Bearer")[0] ||
-            req.headers.token;
+    context: async ({ req, res }) => {
+        const token = (req.headers.authorization || req.headers.Authorization)?.split("Bearer ")[1] || req.headers.token;
         try {
             const claim = await verifyJWT(token);
-            return claim.payload;
+            const payload = claim.payload;
+            if (!payload?.user) {
+                throw Error("unauthenticated");
+            }
+            return payload;
         }
         catch (e) {
             console.error(e);
-            return;
+            res.send(401);
         }
     },
 });

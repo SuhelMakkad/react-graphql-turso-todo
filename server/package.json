@@ -32,7 +32,6 @@
     "graphql": "^16.8.1",
     "jose": "^5.1.3",
     "mysql2": "^3.6.5",
-    "react-graphql-turso-todo server": "link:",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

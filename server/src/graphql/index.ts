@@ -1,20 +1,28 @@
+import { GraphQLError } from "graphql";
+import type { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { verifyJWT } from "../auth/utils";
-import type { ApolloServer } from "@apollo/server";
 
 export const graphqlMiddleware = (server: ApolloServer) =>
   expressMiddleware(server, {
-    context: async ({ req }) => {
+    context: async ({ req, res }) => {
       const token =
-        req.headers.authorization?.split("Bearer")[0] ||
-        (req.headers.token as string);
+        (
+          req.headers.authorization || (req.headers.Authorization as string)
+        )?.split("Bearer ")[1] || (req.headers.token as string);
 
       try {
         const claim = await verifyJWT(token);
-        return claim.payload;
+        const payload = claim.payload;
+
+        if (!payload?.user) {
+          throw Error("unauthenticated");
+        }
+
+        return payload;
       } catch (e) {
         console.error(e);
-        return;
+        res.send(401);
       }
     },
   });
