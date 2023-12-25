@@ -3,6 +3,7 @@ import LoginFrom from "./components/login-form";
 import ErrorAlert from "./components/error-alert";
 import FormFooter from "./components/footer";
 import { routes } from "@/utils/route";
+import { Button } from "@/components/ui/button";
 
 const LoginPage = () => {
   return (
