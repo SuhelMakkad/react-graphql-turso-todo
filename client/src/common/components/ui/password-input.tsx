@@ -23,7 +23,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           ref={ref}
           type={isPasswordVisible ? "text" : type}
-          className="grow border-none outline-none placeholder-shown:font-sans"
+          className="grow border-none outline-none bg-transparent placeholder-shown:font-sans"
           {...props}
         />
         <button
